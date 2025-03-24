@@ -76,7 +76,7 @@
                 <div class="progress-text">0%</div>
             </div>
         </div>
-        <div class="result success" id="success-message">簽約成功</div>
+        <div class="result success" id="success-message">簽約成功 -5000金幣</div>
         <div class="result failure" id="failure-message">簽約失敗</div>
     </div>
 
