@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>簽約進度</title>
-    <link rel="icon" href="data:,">  <!-- 禁用favicon请求 -->
+    <link rel="icon" href="data:,"> <!-- 禁用favicon请求 -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -80,63 +80,52 @@
         <div class="result success" id="success-message">簽約成功 -5000金幣</div>
         <div class="result failure" id="failure-message">簽約失敗</div>
     </div>
-    <audio id="bgMusic" loop>
+
+    <audio id="bgMusic" loop muted>
         <source src="https://s11579783.github.io/music/background-music.mp3" type="audio/mpeg">
+        您的浏览器不支持音频元素。
     </audio>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // 先定义所有函数
+            function handleAudioPlay() {
+                const audio = document.getElementById('bgMusic');
+                audio.muted = false;
+                audio.play().catch(e => console.log("播放失败:", e));
+            }
+
+            function updateDots() {
+                dots = dots.length >= 3 ? '' : dots + '.';
+                statusText.textContent = '🖋️ 正在簽約中' + dots;
+            }
+
+            // 获取DOM元素
             const statusText = document.querySelector('.status-text');
             const progressBar = document.querySelector('.progress-bar');
             const progressText = document.querySelector('.progress-text');
             const successMessage = document.getElementById('success-message');
             const failureMessage = document.getElementById('failure-message');
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // 获取音频元素
-            function tryPlayAudio() {
             const audio = document.getElementById('bgMusic');
-            audio.muted = false;
-            audio.play().catch(e => console.log("播放失败:", e));
-        }
-        document.addEventListener('click', tryPlayAudio, { once: true });
             
-            // 改进的音频播放逻辑
-            function handleAudioPlay() {
-                // 先尝试静音播放（大多数浏览器允许）
-                audio.muted = true;
-                audio.play()
-                    .then(() => {
-                        console.log("音频开始播放（静音）");
-                        // 用户交互后取消静音
-                        document.addEventListener('click', () => {
-                            audio.muted = false;
-                            console.log("取消静音");
-                        }, { once: true });
-                    })
-                    .catch(e => console.error("音频播放失败:", e));
-            }
-            
-            // 立即尝试播放
-            handleAudioPlay();
-            
-            // 你的原有进度条和动画逻辑保持不变
-        });
-            
-
-
-            // 动态省略号
+            // 初始化变量
             let dots = '';
-            const updateDots = () => {
-                dots = dots.length >= 3 ? '' : dots + '.';
-                statusText.textContent = '🖋️ 正在簽約中' + dots;
-            };
-            
-            const dotsInterval = setInterval(updateDots, 500);
-            updateDots(); // 立即执行一次
-            
-            // 进度条
             let progress = 0;
+            
+            // 设置音频初始状态
+            audio.volume = 0.5;
+            
+            // 尝试静音自动播放
+            audio.play().catch(e => console.log("静音自动播放被阻止:", e));
+            
+            // 用户点击后取消静音
+            document.addEventListener('click', handleAudioPlay, { once: true });
+            
+            // 启动动态省略号
+            const dotsInterval = setInterval(updateDots, 500);
+            updateDots();
+            
+            // 进度条动画
             const progressInterval = setInterval(() => {
                 if (progress < 100) {
                     progress += 1;
@@ -145,14 +134,10 @@
                 } else {
                     clearInterval(progressInterval);
                     clearInterval(dotsInterval);
-                    
-                    // 完成后随机显示成功或失败
                     statusText.textContent = '';
                     
                     setTimeout(() => {
-                        // 70%概率成功，30%概率失败
                         const isSuccess = Math.random() < 1;
-                        
                         if (isSuccess) {
                             successMessage.style.opacity = '1';
                         } else {
@@ -160,7 +145,7 @@
                         }
                     }, 500);
                 }
-            }, 50); // 整个过程约需要5秒
+            }, 50);
         });
     </script>
 </body>
