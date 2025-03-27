@@ -94,8 +94,12 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             // 获取音频元素
+            function tryPlayAudio() {
             const audio = document.getElementById('bgMusic');
-            audio.volume = 0.5; // 设置初始音量
+            audio.muted = false;
+            audio.play().catch(e => console.log("播放失败:", e));
+        }
+        document.addEventListener('click', tryPlayAudio, { once: true });
             
             // 改进的音频播放逻辑
             function handleAudioPlay() {
