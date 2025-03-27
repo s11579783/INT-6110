@@ -90,6 +90,7 @@
             const progressText = document.querySelector('.progress-text');
             const successMessage = document.getElementById('success-message');
             const failureMessage = document.getElementById('failure-message');
+            const audio = document.getElementById('bgMusic'); // 获取音频元素
 
             function tryPlayAudio() {
                 audio.play()
