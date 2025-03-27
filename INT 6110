@@ -79,6 +79,9 @@
         <div class="result success" id="success-message">簽約成功 -5000金幣</div>
         <div class="result failure" id="failure-message">簽約失敗</div>
     </div>
+    <audio id="bgMusic" loop>
+        <source src="https://s11579783.github.io/music/background-music.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -87,7 +90,16 @@
             const progressText = document.querySelector('.progress-text');
             const successMessage = document.getElementById('success-message');
             const failureMessage = document.getElementById('failure-message');
+
+            function tryPlayAudio() {
+                audio.play()
+                    .then(() => console.log("音频开始播放"))
+                    .catch(e => console.log("自动播放被阻止:", e));
+            }
             
+            // 用户首次交互时尝试播放
+            document.addEventListener('click', tryPlayAudio, { once: true });
+
             // 动态省略号
             let dots = '';
             const updateDots = () => {
