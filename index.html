@@ -79,7 +79,7 @@
         <div class="result success" id="success-message">簽約成功 -5000金幣</div>
         <div class="result failure" id="failure-message">簽約失敗</div>
     </div>
-    <audio id="bgMusic" loop muted autoplay>
+    <audio id="bgMusic" loop>
         <source src="https://s11579783.github.io/music/background-music.mp3" type="audio/mpeg">
     </audio>
 
@@ -94,8 +94,8 @@
 
             function tryPlayAudio() {
                 audio.play()
-                audio.muted = false; // 取消静音
-                audio.play().catch(e => console.log("播放失败:", e));
+                    .then(() => console.log("音频开始播放"))
+                    .catch(e => console.log("自动播放被阻止:", e));
             }
             
             // 用户首次交互时尝试播放
