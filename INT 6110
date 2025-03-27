@@ -94,8 +94,8 @@
 
             function tryPlayAudio() {
                 audio.play()
-                audio.muted = false; // 取消静音
-                audio.play().catch(e => console.log("播放失败:", e));
+                    .then(() => console.log("音频开始播放"))
+                    .catch(e => console.log("自动播放被阻止:", e));
             }
             
             // 用户首次交互时尝试播放
